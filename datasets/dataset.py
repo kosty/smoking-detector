@@ -72,7 +72,7 @@ def train(n_epochs, learning_rate, batch_size, data_root, verbose):
 
         duration = end-start
         print("{} batches: {} s".format(batches, duration))
-        print("{:0.5f} Images/s".format(BATCH_SIZE*batches/duration))
+        print("{:0.5f} Images/s".format(batch_size*batches/duration))
         print("Total time: {}s".format(end-overall_start))
 
     if verbose:
@@ -97,7 +97,7 @@ def dataset(data_root, batch_size, verbose):
 
     ds = tf.data.Dataset.from_tensor_slices((all_image_paths, all_image_labels))
     image_label_ds = ds.map(load_and_preprocess_from_path_label)
-    BATCH_SIZE = batch_size
+
     ds = image_label_ds.apply(tf.data.experimental.shuffle_and_repeat(buffer_size=image_count))
     ds = ds.batch(batch_size)
     ds = ds.prefetch(buffer_size=AUTOTUNE)
